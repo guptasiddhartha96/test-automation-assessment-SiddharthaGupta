@@ -9,6 +9,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+
 public class PageObjects extends BaseTest {
     public PageObjects(WebDriver driver){
 
@@ -63,46 +68,60 @@ public class PageObjects extends BaseTest {
     WebElement save;
 
     public void Login(String username, String password){
-        System.out.println(username);
-        System.out.println(password);
-        txt_username.sendKeys(username);
-        txt_password.sendKeys(password);
-        lgnbtn.click();
+
+            System.out.println(username);
+            System.out.println(password);
+            txt_username.sendKeys(username);
+            txt_password.sendKeys(password);
+            lgnbtn.click();
+
+
+
     }
     public void Logout(String username){
 
-        if(username.equalsIgnoreCase("admin")){
-            admin.click();
-        }else if (username.equalsIgnoreCase("manager")){
-            manager.click();
-        }else if (username.equalsIgnoreCase("user1")){
-            user1.click();
-        }else if(username.equalsIgnoreCase("user2")){
-            user2.click();
-        }
+            if (username.equalsIgnoreCase("admin")) {
+                admin.click();
+            } else if (username.equalsIgnoreCase("manager")) {
+                manager.click();
+            } else if (username.equalsIgnoreCase("user1")) {
+                user1.click();
+            } else if (username.equalsIgnoreCase("user2")) {
+                user2.click();
+            }
 
-        signoutbtn.click();
+            signoutbtn.click();
+
+
     }
 
-    public void Company() throws InterruptedException {
-        cmp.click();
-        Thread.sleep(2000);
-        add.click();
-        Thread.sleep(2000);
-        name.sendKeys("Siddhartha");
-        Thread.sleep(2000);
-        desc.sendKeys("Automation test");
-        Thread.sleep(2000);
-        type.sendKeys("Company");
-        Thread.sleep(2000);
-        type.sendKeys(Keys.ENTER);
-        country.sendKeys("India");
-        Thread.sleep(2000);
-        country.sendKeys(Keys.ENTER);
-        time.sendKeys("(GMT 00:00) Africa/Abidjan");
-        Thread.sleep(2000);
-        time.sendKeys(Keys.ENTER);
-        save.click();
+    public void Company() throws InterruptedException, IOException {
+
+
+            prop = new Properties();
+            FileInputStream fis = new FileInputStream("C:\\Users\\siddharthagupta\\IdeaProjects\\maven-demo\\src\\test\\resources\\config.properties");
+            prop.load(fis);
+            cmp.click();
+            Thread.sleep(2000);
+            add.click();
+            Thread.sleep(2000);
+            name.sendKeys(prop.getProperty("name"));
+            Thread.sleep(2000);
+            desc.sendKeys(prop.getProperty("details"));
+            Thread.sleep(2000);
+            type.sendKeys(prop.getProperty("type"));
+            Thread.sleep(2000);
+            type.sendKeys(Keys.ENTER);
+            country.sendKeys(prop.getProperty("country"));
+            Thread.sleep(2000);
+            country.sendKeys(Keys.ENTER);
+            time.sendKeys(prop.getProperty("time"));
+            Thread.sleep(2000);
+            time.sendKeys(Keys.ENTER);
+            save.click();
+
+
+
 
 
 

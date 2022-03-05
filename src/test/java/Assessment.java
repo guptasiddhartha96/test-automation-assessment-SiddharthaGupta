@@ -31,11 +31,14 @@ public class Assessment extends BaseTest{
                 String pwd=(String)users.get("password");
                 System.out.println(pwd);
                 p.Login(uname,pwd);
+                System.out.println("Login successfull");
                 p.Logout(uname);
+                System.out.println("Logout successfull");
             }
 
         }catch (Exception e){
             e.printStackTrace();
+            exitOnFailure(e);
         }
 
 
