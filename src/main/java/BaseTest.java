@@ -1,15 +1,18 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.AfterClass;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.Reporter;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.*;
+import static org.awaitility.Awaitility.await;
+
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,11 +20,15 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Base64;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.io.FileUtils;
 
 public class BaseTest {
+    protected int timeToWaitInSecs = 50;
     public WebDriver driver;
     public Properties prop;
+    WebDriverWait wait;
 
     @BeforeClass
     public WebDriver setup() throws IOException {
@@ -57,21 +64,44 @@ public class BaseTest {
             FileUtils.copyFile(src, new File("./FailedTestcaseScreenshots/failedTestcaseScreenshot.png"));
             String fileName = System.getProperty("user.dir")
                     + "/FailedTestcaseScreenshots/failedTestcaseScreenshot.png";
-            Reporter.setEscapeHtml(false);
 
             byte[] fileContent = FileUtils.readFileToByteArray(new File(fileName));
             String encodedString = Base64.getEncoder().encodeToString(fileContent);
 
             String path = "<img src=\"data:image/png;base64, " + encodedString + "\" />";
-            Reporter.log(path);
             Assert.assertTrue(1 == 2);
         } catch (Exception e1) {
             e1.printStackTrace();
         }
 
     }
+    protected void waitForElementToBePresent(WebElement element) {
+        await().ignoreExceptions().atMost(timeToWaitInSecs, TimeUnit.SECONDS).until(() -> isElementDisplayed(element));
+    }
 
-    @AfterMethod
+    // Test method to add wait for Element with expected condition
+    protected boolean waitForElementWithCondition(ExpectedCondition<?> e) throws TimeoutException {
+        wait.until(e);
+        return true;
+    }
+
+    protected void waitForElementToBeVisible(WebElement element) {
+        waitForElementWithCondition(ExpectedConditions.visibilityOf(element));
+    }
+    protected boolean isElementDisplayed(WebElement element) {
+        boolean status = false;
+        try {
+            if (element.isEnabled()) {
+                if (element.isDisplayed()) {
+                    status = true;
+                }
+            }
+        } catch (NoSuchElementException | StaleElementReferenceException e) {
+        }
+        return status;
+    }
+
+    @AfterClass
     public void tearDown(){
         driver.quit();
     }

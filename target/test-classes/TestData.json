@@ -1,0 +1,20 @@
+{
+  "userlogins": [
+    {
+      "username": "admin",
+      "password": "admin"
+    },
+    {
+      "username": "manager",
+      "password": "demouserpwd"
+    },
+    {
+      "username": "user1",
+      "password": "demouserpwd"
+    },
+    {
+      "username": "user2",
+      "password": "demouserpwd"
+    }
+  ]
+}

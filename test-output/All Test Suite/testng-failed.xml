@@ -3,13 +3,13 @@
 <suite thread-count="2" parallel="classes" name="Failed suite [All Test Suite]" guice-stage="DEVELOPMENT">
   <test thread-count="2" parallel="classes" name="C:/Users/siddharthagupta/IdeaProjects/maven-demo/src/test/resources(failed)">
     <classes>
-      <class name="Assessment1">
+      <class name="DashboardCompany">
         <methods>
           <include name="tearDown"/>
           <include name="setup"/>
           <include name="Dashboard"/>
         </methods>
-      </class> <!-- Assessment1 -->
+      </class> <!-- DashboardCompany -->
     </classes>
   </test> <!-- C:/Users/siddharthagupta/IdeaProjects/maven-demo/src/test/resources(failed) -->
 </suite> <!-- Failed suite [All Test Suite] -->
