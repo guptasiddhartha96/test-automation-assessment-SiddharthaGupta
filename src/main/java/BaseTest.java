@@ -33,7 +33,7 @@ public class BaseTest {
     @BeforeClass
     public WebDriver setup() throws IOException {
         prop=new Properties();
-        FileInputStream fis=new FileInputStream("C:\\Users\\siddharthagupta\\IdeaProjects\\maven-demo\\src\\test\\resources\\config.properties");
+        FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\config.properties");
         prop.load(fis);
         String browserName=prop.getProperty("browser");
         if (browserName.equalsIgnoreCase("chrome")){
